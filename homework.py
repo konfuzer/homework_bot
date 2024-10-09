@@ -19,6 +19,11 @@ RETRY_PERIOD = 600
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
+HOMEWORK_VERDICTS = {
+    'approved': 'Работа проверена: ревьюеру всё понравилось. Ура!',
+    'reviewing': 'Работа взята на проверку ревьюером.',
+    'rejected': 'Работа проверена: у ревьюера есть замечания.'
+}
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s, %(levelname)s, %(message)s, %(name)s',
@@ -77,11 +82,7 @@ def parse_status(homework):
     if homework_name is None or homework_status is None:
         raise KeyError('Отсутствуют ожидаемые ключи в ответе API')
 
-    verdicts = {
-        'approved': 'Работа проверена: ревьюеру всё понравилось. Ура!',
-        'reviewing': 'Работа взята на проверку ревьюером.',
-        'rejected': 'Работа проверена: у ревьюера есть замечания.'
-    }
+    verdicts = HOMEWORK_VERDICTS
 
     verdict = verdicts.get(homework_status)
 
